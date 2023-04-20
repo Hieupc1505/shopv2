@@ -1,0 +1,8 @@
+node_modules
+.env
+client
+server
+request.http
+src/v1
+index.v1.js
+tmp
