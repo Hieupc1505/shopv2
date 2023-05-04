@@ -1,0 +1,66 @@
+
+
+@baseUrl = http://localhost:8500
+@authRoute = /api/v2 
+
+
+
+###
+GET {{baseUrl}}{{authRoute}}/status
+
+//User Authoricated. 
+###
+POST {{baseUrl}}{{authRoute}}/user/register
+Content-Type: application/json
+
+{
+    "email" : "vahieu66@gmail.com", 
+    "password" : "A12345678"
+}
+
+###
+GET {{baseUrl}}{{authRoute}}/user/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiZW1haWwiOiJ2YWhpZXU2NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRpVEVPUmZ2Z2ROQTRWQWducWlteUcuTm5qNFQwVXozbU1PclI4YTA3T0VNS2lvMVFpSFFPSyJ9LCJpYXQiOjE2ODMxNTEwNTgsImV4cCI6MTY4MzE1NDY1OH0.2-0cmy7--hFvFw4MhUbruDYaJuI0sqXCWGGYKfrd7Fk
+
+### 
+POST {{baseUrl}}{{authRoute}}/user/login
+Content-Type: application/json
+
+{
+    "email" : "vahieu66@gmail.com", 
+    "password" : "A12345678"
+}
+//A12345678
+### 
+POST {{baseUrl}}{{authRoute}}/user/forget/account
+Content-Type: application/json
+
+{
+    "email" : "vahieu66@gmail.com"
+}
+
+### 
+POST {{baseUrl}}{{authRoute}}/user/reset/account
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiX2lkIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIn0sImlhdCI6MTY4MzE1MTEzNCwiZXhwIjoxNjgzMTUxNzM0fQ.8wJKLex75K5iMEF_hmrVU4mqQUJXH6nbV8mD6MwdqHs
+Content-Type: application/json
+
+{
+    "password" : "A12345678"
+}
+
+
+### 
+POST {{baseUrl}}{{authRoute}}/user/refreshtoken
+Content-Type: application/json
+
+{
+    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDUyZDhlN2QwYjU2YjAwNDgzMGNmN2YiLCJpYXQiOjE2ODMxNTEyNzQsImV4cCI6MTY4MzIzNzY3NH0.5Ut6GG3cI0KQcdbcVOVWHyyZgVhLbywSANrG7gOwy6w"
+}
+
+### 
+POST {{baseUrl}}{{authRoute}}/user/logout
+Content-Type: application/json
+
+{
+    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDUxYjgzZjUxNDE5ZTYxNWQzMjVhYTIiLCJpYXQiOjE2ODMwODMwNzAsImV4cCI6MTY4MzE2OTQ3MH0.hCrLfHbe2P9NLD5vsGDI4EpiYyDA_CborZm0-MGtMxI"
+}
+

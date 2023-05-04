@@ -6,3 +6,5 @@ request.http
 src/v1
 index.v1.js
 tmp
+.vscode
+.prettierrc
