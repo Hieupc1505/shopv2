@@ -2,7 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const { ACCESSTOKEN_SECRET } = process.env;
-const _User = require('@v2/model/user.model');
+const { _User } = require('@v2/model/user.model');
 
 var that = (module.exports = {
     authToken: async (req, res, next) => {
@@ -14,7 +14,8 @@ var that = (module.exports = {
 
             jwt.verify(token, ACCESSTOKEN_SECRET, (err, decoded) => {
                 if (err) throw new createError.Unauthorized();
-                req.userId = decoded.userId;
+                req.body.userId = decoded.data;
+
                 next();
             });
         } catch (err) {
@@ -29,19 +30,20 @@ var that = (module.exports = {
 
             if (!token) throw new createError.Forbidden();
             jwt.verify(token, ACCESSTOKEN_SECRET, async (err, decoded) => {
-                if (err) throw new createError.Unauthorized();
-                console.log(decoded);
-                const user = await _User.findOne({ _id: decoded.userId });
-                if (!user || user.role === 0) throw new createError.Forbidden('You are not Admin');
+                if (err) throw new createError.Unauthorized(err);
+                const user = await _User.findOne({ _id: decoded.data });
 
-                req.userId = decoded.id;
+                if (user?.userInfo?.role === 0) throw new createError.Forbidden('You are not admin!!');
+                req.userId = decoded.data;
+                console.log('admin');
                 next();
+            }).catch((err) => {
+                console.log('not admin');
+                next(err);
             });
         } catch (err) {
-            res.status(err.status || 500).json({
-                success: false, //success
-                msg: err.message || 'AuthAdmin is Faile',
-            });
+            next(err);
+            // res.send(false);
         }
     },
 });

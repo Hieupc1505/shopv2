@@ -2,9 +2,8 @@ const { _User } = require('@v2/model/user.model');
 
 const createError = require('http-errors');
 const client = require('@v2/configs/redis.config');
-const bcrypt = require('bcrypt');
 
-const sendMail = require('@v2/services/sendMail.service');
+const sendMail = require('@v2/helpers/sendMail.service');
 const { URL, ACCESSTOKEN_SECRET } = process.env;
 const {
     errorJoi: handleJoiError,
@@ -45,7 +44,7 @@ var that = (module.exports = {
         const decoded = await verifyAccessToken(token, ACCESSTOKEN_SECRET);
         if (!decoded) throw new createError.Forbidden();
         const {
-            userId: { email, password },
+            data: { email, password },
         } = decoded;
 
         const isFind = await _User.findOne({ email, status: 1 });
@@ -120,19 +119,11 @@ var that = (module.exports = {
         };
     },
     forgetPass: async ({ email }) => {
-        const acc = await _User.findOne({ email, status: 1 }, { _id: 1 }).catch((err) => {
-            logger.error(err);
-            throw new createError.InternalServerError('Internal Server Error!!');
-        });
+        const acc = await _User.findOne({ email, status: 1 }, { _id: 1 });
 
         if (!acc) throw new createError.BadRequest('Email chưa đăng ký!!');
 
-        const tokenForget = await signAccessToken(
-            {
-                _id: acc._id,
-            },
-            '10m',
-        );
+        const tokenForget = await signAccessToken(acc._id, '10m');
 
         const url = `${URL}/user/reset/account/${tokenForget}`;
 
@@ -143,7 +134,7 @@ var that = (module.exports = {
             forgetLink: url,
         };
     },
-    resetPass: async ({ _id = null }, password = null) => {
+    resetPass: async (_id, password = null) => {
         if (!password || !_id) throw new createError.BadRequest();
         const acc = await _User.findOne({ _id });
 
@@ -170,8 +161,7 @@ var that = (module.exports = {
     },
     refreshToken: async ({ refreshToken = null }) => {
         if (!refreshToken) throw createError.BadRequest();
-        const { userId } = await verifyRefreshToken(refreshToken);
-        console.log(userId);
+        const { data: userId } = await verifyRefreshToken(refreshToken);
         const accessToken = await signAccessToken(userId, '1d');
         const refToken = await signRefreshToken(userId, '10d');
 
@@ -183,7 +173,7 @@ var that = (module.exports = {
     },
     logout: async ({ refreshToken }) => {
         if (!refreshToken) throw new createError.BadRequest();
-        const { userId } = await verifyRefreshToken(refreshToken);
+        const { data: userId } = await verifyRefreshToken(refreshToken);
         const token = await client.get(userId.toString());
         if (token !== refreshToken) {
             throw new createError.BadRequest();

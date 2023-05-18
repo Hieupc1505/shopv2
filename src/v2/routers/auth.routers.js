@@ -17,23 +17,33 @@ const {
     authPassport: { initPPGoogle, authGoogle, authGoogleCallback, initPPFacebook, authFacebook, authFacebookCallback },
 } = require('@v2/middleware/index.middeware');
 
+//test
+router.get('/test', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: '/api/v2/auth is ready!!!',
+    });
+});
+
 //[/api/v2]
-router.route('/user/register').post(register);
-router.route('/user/login').post(login);
-router.route('/user/logout').post(logout);
-router.route('/user/activate/:token').get(activate);
-router.route('/user/forget/account').post(forgetPass);
-router.route('/user/reset/account').post(resetPass);
-router.route('/user/refreshtoken').post(refreshToken);
+router.route('/register').post(register);
+router.route('/login').post(login);
+router.route('/logout').post(logout);
+router.route('/activate/:token').get(activate);
+router.route('/forget/account').post(forgetPass);
+router.route('/reset/account').post(resetPass);
+router.route('/refreshtoken').post(refreshToken);
+
+//user upload profile
 
 //auth Google
 // initPPGoogle();
-router.route('/auth/google').get(authGoogle);
-router.route('/auth/google/callback').get(authGoogleCallback, login);
+router.route('/google').get(authGoogle);
+router.route('/google/callback').get(authGoogleCallback, login);
 
 //auth Facebook
 // initPPFacebook();
-router.route('/auth/facebook').get(authFacebook);
-router.route('/auth/facebook/callback').get(authFacebookCallback, login);
+router.route('/facebook').get(authFacebook);
+router.route('/facebook/callback').get(authFacebookCallback, login);
 
 module.exports = router;
