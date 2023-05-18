@@ -1,7 +1,8 @@
-const { catchAsync } = require('@v2/utils/catchAsync.utils');
 const {
     authToken: { authAdmin, authToken },
 } = require('@v2/middleware/index.middeware');
+
+const { catchAsync } = require('@v2/utils/index');
 
 const {
     register,
@@ -43,7 +44,7 @@ var that = (module.exports = {
     resetPass: [
         authToken,
         catchAsync(async (req, res, next) => {
-            res.status(200).json(await resetPass(req.userId, req.body?.password));
+            res.status(200).json(await resetPass(req.body?.userId, req.body?.password));
         }),
     ],
     disable: [
@@ -53,6 +54,7 @@ var that = (module.exports = {
         }),
     ],
     setRole: [
+        authAdmin,
         catchAsync(async (req, res, next) => {
             return {
                 success: true,

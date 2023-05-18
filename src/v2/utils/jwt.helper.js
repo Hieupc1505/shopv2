@@ -4,10 +4,10 @@ const { ACCESSTOKEN_SECRET, REFRESHTOKEN_SECRET } = process.env;
 const createError = require('http-errors');
 const client = require('@v2/configs/redis.config');
 
-const signAccessToken = async (userId, time) => {
+const signAccessToken = async (data, time) => {
     return new Promise((res, rej) => {
         const payload = {
-            userId,
+            data,
         };
         const secret = ACCESSTOKEN_SECRET;
         const options = {
@@ -19,10 +19,10 @@ const signAccessToken = async (userId, time) => {
         });
     });
 };
-const signRefreshToken = async (userId, time) => {
+const signRefreshToken = async (data, time) => {
     return new Promise((res, rej) => {
         const payload = {
-            userId,
+            data,
         };
         const secret = REFRESHTOKEN_SECRET;
         const options = {
@@ -33,7 +33,7 @@ const signRefreshToken = async (userId, time) => {
                 rej(err);
             }
 
-            await client.set(userId.toString(), token, 'EX', 10 * 24 * 60 * 60, (err, reply) => {
+            await client.set(data.toString(), token, 'EX', 10 * 24 * 60 * 60, (err, reply) => {
                 if (err) {
                     return rej(createError.InternalServerError());
                 }
@@ -65,9 +65,8 @@ const verifyRefreshToken = (refreshToken) => {
             if (err) {
                 return rej(err);
             }
-            client.get(payload.userId, (err, reply) => {
+            client.get(payload.data, (err, reply) => {
                 if (err) return rej(createError.InternalServerError());
-                console.log(reply);
                 if (refreshToken === reply) return res(payload);
                 return rej(createError.Unauthorized());
             });

@@ -47,7 +47,7 @@ const sendEmail = async (to, subject = 'Van Hieu Shop !', text = 'Register', URL
 
         return await transport.sendMail(mailOptions);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw new createError(500, 'Internal Server error');
     }
 };
