@@ -35,7 +35,7 @@ var that = (module.exports = {
         return {
             success: true,
             message: 'Vui lòng kiểm tra email',
-            tokenActivate,
+            // tokenActivate,
         };
     },
     active: async (token) => {
@@ -133,7 +133,7 @@ var that = (module.exports = {
         return {
             success: true,
             message: 'Vui lòng kiểm tra email để đổi mật khẩu!!',
-            forgetLink: url,
+            // forgetLink: url,
         };
     },
     resetPass: async (_id, password = null) => {
