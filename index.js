@@ -15,7 +15,6 @@ const logger = require('@v2/utils/logger.utils');
 const db = require('@v2/configs/db.config');
 const errorMiddleware = require('@v2/middleware/error.middleware');
 const errorHandle = require('http-errors');
-
 //main route v2
 const routev2 = require('@v2/routers/index');
 
