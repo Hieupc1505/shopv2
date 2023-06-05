@@ -16,7 +16,6 @@ const {
     setRole,
     getInfo,
     updateProfile,
-    suggestSearchName,
 } = require('@v2/services/auth.service');
 const { _User } = require('@v2/model/user.model');
 
@@ -75,7 +74,4 @@ var that = (module.exports = {
             res.status(200).json(await getInfo(req.userId));
         }),
     ],
-    suggestSearchName: catchAsync(async (req, res, next) => {
-        res.status(200).json(await suggestSearchName(req.query));
-    }),
 });

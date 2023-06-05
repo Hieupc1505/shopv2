@@ -14,12 +14,12 @@ POST {{baseUrl}}{{authRoute}}/register
 Content-Type: application/json
 
 {
-    "email" : "vahieu66@gmail.com", 
-    "password" : "A12345678"
+    "email" : "admin@gmail.com", 
+    "password" : "admin123456"
 }
 
 ###
-GET {{baseUrl}}{{authRoute}}/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiZW1haWwiOiJ2YWhpZXU2NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRpVEVPUmZ2Z2ROQTRWQWducWlteUcuTm5qNFQwVXozbU1PclI4YTA3T0VNS2lvMVFpSFFPSyJ9LCJpYXQiOjE2ODMxNTEwNTgsImV4cCI6MTY4MzE1NDY1OH0.2-0cmy7--hFvFw4MhUbruDYaJuI0sqXCWGGYKfrd7Fk
+GET {{baseUrl}}{{authRoute}}/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkN1ZBU25qcWhpVTlvL0hLZDNabEpOZXFiaTZnbjJndHo1R1dLR1BCamVReDZCaS53ajBLUlMifSwiaWF0IjoxNjg1OTg0NDIyLCJleHAiOjE2ODU5ODgwMjJ9._9UVSCu1A4ZvAS3jxL1NpBJuJECrT7e204W9akGspy8
 
 ### 
 POST {{baseUrl}}{{authRoute}}/login
@@ -61,6 +61,11 @@ POST {{baseUrl}}{{authRoute}}/logout
 Content-Type: application/json
 
 {
-    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjgzMTY5ODE5LCJleHAiOjE2ODMyNTYyMTl9.J0moXaX7umS8Kw7ENqfG7585m9Ul4IH2CIDxAla6qZ8"
+    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0ODg5MzY4LCJleHAiOjE2ODQ5NzU3Njh9.3uA_2dM2C5jes4_P0N5T0oEgohfyVa5psj-An7Mcy1I"
 }
+### 
+GET {{baseUrl}}{{authRoute}}/info
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0ODg5MzY4LCJleHAiOjE2ODQ5NzU3Njh9.3uA_2dM2C5jes4_P0N5T0oEgohfyVa5psj-An7Mcy1I
+
+
 

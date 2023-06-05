@@ -18,7 +18,7 @@ var that = (module.exports = {
                     throw new createError.BadRequest(errors);
                 }
 
-                const result = await uploadImagesSequentially(data, cloudinary, folderName)
+                const result = await uploadImagesSequentially(data, cloudinary)
                     .then((result) => result)
                     .catch(next);
                 req.body.images = result;
