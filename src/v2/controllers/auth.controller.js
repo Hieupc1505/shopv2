@@ -14,13 +14,19 @@ const {
     logout,
     disable,
     setRole,
+    getInfo,
+    updateProfile,
+    suggestSearchName,
 } = require('@v2/services/auth.service');
+const { _User } = require('@v2/model/user.model');
+
+const { uploadImgBase64 } = require('@v2/helpers/cloudinary.service');
 
 var that = (module.exports = {
     login: catchAsync(async (req, res, next) => {
         // console.log("heoo");
         if (req.provider) return res.status(200).json(await login(req.user, req.provider));
-        res.status(200).json(await login(req.body, 'lc'));
+        await login(req.body, 'lc', res);
     }),
     register: catchAsync(async (req, res, next) => {
         res.status(200).json(await register(req.body));
@@ -35,7 +41,8 @@ var that = (module.exports = {
         res.status(200).json(await refreshToken(req.body));
     }),
     logout: catchAsync(async (req, res, next) => {
-        res.status(200).json(await logout(req.body));
+        console.log(req.cookies);
+        res.status(200).json(await logout(req.cookies, res));
     }), // [POST] /user/forget
     forgetPass: catchAsync(async (req, res, next) => {
         res.status(200).json(await forgetPass(req.body));
@@ -44,7 +51,7 @@ var that = (module.exports = {
     resetPass: [
         authToken,
         catchAsync(async (req, res, next) => {
-            res.status(200).json(await resetPass(req.body?.userId, req.body?.password));
+            res.status(200).json(await resetPass(req.userId, req.body?.password));
         }),
     ],
     disable: [
@@ -62,4 +69,13 @@ var that = (module.exports = {
             };
         }),
     ],
+    getInfo: [
+        authToken,
+        catchAsync(async (req, res, next) => {
+            res.status(200).json(await getInfo(req.userId));
+        }),
+    ],
+    suggestSearchName: catchAsync(async (req, res, next) => {
+        res.status(200).json(await suggestSearchName(req.query));
+    }),
 });

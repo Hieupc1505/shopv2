@@ -10,6 +10,7 @@ const {
     resetPass,
     refreshToken,
     logout,
+    getInfo,
 } = require('@v2/controllers/auth.controller');
 
 //middlewar with passport google
@@ -28,11 +29,13 @@ router.get('/test', (req, res) => {
 //[/api/v2]
 router.route('/register').post(register);
 router.route('/login').post(login);
-router.route('/logout').post(logout);
+router.route('/logout').get(logout);
+
 router.route('/activate/:token').get(activate);
 router.route('/forget/account').post(forgetPass);
 router.route('/reset/account').post(resetPass);
 router.route('/refreshtoken').post(refreshToken);
+router.route('/info').get(getInfo);
 
 //user upload profile
 

@@ -13,7 +13,7 @@ const {
 const handleInventories = require('@v2/utils/handleInventories');
 
 var that = (module.exports = {
-    addToCart: async ({ productId = null, userId = null, quantity, status = 'active' }) => {
+    addToCart: async ({ productId = null, quantity, status = 'active' }, userId = null) => {
         if (!productId || !userId) throw new createError.BadRequest();
 
         const checkProduct = await Promise.all([_Products.findOne({ productId }), _User.findOne({ _id: userId })]);
@@ -50,8 +50,8 @@ var that = (module.exports = {
             message: 'Thêm thành công!!',
         };
     },
-    removeToCart: async ({ productId = null, userId = null }) => {
-        if (!productId || !userId) throw new createError.BadRequest();
+    removeToCart: async ({ productId }, userId = null) => {
+        if (!productId || !userId) throw new createError.BadRequest('productId,userId ');
 
         const arrCheck = productId.split('|').map((item) => {
             return _Cart.findOne({ userId, 'products.productId': item });
@@ -95,7 +95,7 @@ var that = (module.exports = {
         const prds = data.products.map(({ productId }) => productId);
 
         const check = await _Products.find({ productId: { $in: prds } });
-        console.log(check.length);
+
         if (check.length !== prds.length) throw new createError.BadRequest();
         const [result, _] = await Promise.all([
             _Order.create(data),
@@ -113,21 +113,85 @@ var that = (module.exports = {
             result,
         };
     },
-    paymentOnl: async (
-        {
+    paymentCOD: async (
+        { productId, weight, address, number, amount, shipping, status, notes, type, pay, name },
+        userId,
+    ) => {
+        const { error } = cartValid({
             userId,
             productId,
+            weight: +weight,
+            address,
+            number: +number,
+            amount: +amount,
+            shipping,
+            status: +status,
+            notes,
+            type,
+            pay,
+            name,
+        });
+
+        if (error) {
+            throw new createError.BadRequest(handleJoiError(error));
+        }
+
+        const parseProducts = decodeBase64ToUTF8(productId);
+        const prds = parseProducts.map(({ productId }) => productId);
+
+        const check = await _Products.find({ productId: { $in: prds } });
+        if (check.length !== prds.length) throw new createError.BadRequest();
+
+        let data = {
+            userId,
+            shipping: {
+                address, //địa chỉ giao hàng
+                number, //sđt giao hàng
+                cost: shipping, //phí ship
+                status, //tình trạng ship đã giao hay chưa
+                notes, //ghi chú thêm
+                weight, //đơn vị gram
+                name,
+            },
+            payment: {
+                type: 'cod', //cod
+                total: amount, // bao gồm cả ship
+                status: 'pending', //tình trạng thanh toán
+                timmer: Date.now(),
+            },
+            products: parseProducts,
+        };
+
+        const [result, _] = await Promise.all([
+            _Order.create(data),
+            _Cart.findOneAndUpdate(
+                { userId, 'products.productId': { $in: prds } },
+                { $pull: { products: { productId: { $in: prds } } } },
+                { multi: true },
+            ),
+            ...handleInventories(parseProducts, userId),
+        ]);
+        return {
+            success: true,
+            result,
+        };
+    },
+    paymentOnl: async (
+        {
+            name,
+            productId,
+            keyCode,
             weight,
             address,
             number,
             amount,
-            keyCode,
             shipping,
             status = 0,
             notes,
-            type,
+            type = 'banking',
             pay = 'pending',
         },
+        userId,
         url,
     ) => {
         const { error } = cartValid({
@@ -135,17 +199,20 @@ var that = (module.exports = {
             productId,
             weight: +weight,
             address,
-            number,
+            number: +number,
             amount: +amount,
             shipping,
             status: +status,
             notes,
             type,
             pay,
+            name,
         });
+
         if (error) {
             throw new createError.BadRequest(handleJoiError(error));
         }
+
         let data = encodeBase64({
             userId,
             shipping: {
@@ -155,6 +222,7 @@ var that = (module.exports = {
                 status, //tình trạng ship đã giao hay chưa
                 notes, //ghi chú thêm
                 weight, //đơn vị gram
+                name,
             },
             payment: {
                 type, //cod
@@ -172,6 +240,27 @@ var that = (module.exports = {
             url: url,
             keyCode,
             data,
+        };
+    },
+    getCart: async (userId) => {
+        const cart = await _Cart.findOne({ userId }).lean();
+
+        return {
+            success: true,
+            data: cart,
+        };
+    },
+    getDetailCart: async (userId) => {
+        const cart = (await _Cart.findOne({ userId }).lean()).products;
+        const listProductId = cart.map((item) => item.productId);
+        const result = await _Products
+            .find({
+                productId: { $in: listProductId },
+            })
+            .lean();
+        return {
+            success: true,
+            data: result.map((item, index) => ({ ...item, ...cart[index] })),
         };
     },
 });

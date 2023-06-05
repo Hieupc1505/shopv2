@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ###
 POST {{baseUrl}}{{pdsRoute}}/add 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjgzMzgyNzQ0LCJleHAiOjE2ODMzODYzNDR9.ePA7nl3nPixT5x9wW_IMQtCzuOK-zxgOa5Re2yh764g
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0NzU0MTk0LCJleHAiOjE2ODQ3NTc3OTR9.23Xv-ODJiZI_JfpBn-txPQDIAVs0nXHCb6KvIQxXR3s
 Content-Type: application/json 
 
 {
@@ -38,27 +38,28 @@ Content-Type: application/json
 
 ###
 PATCH  {{baseUrl}}{{pdsRoute}}/update 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0MTg2ODk0LCJleHAiOjE2ODQxOTA0OTR9.M5jGIRlcCtLoZpAQE11yJbL9kpC6Heur9HNgQelyT-k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0NzQxNjI5LCJleHAiOjE2ODQ3NDUyMjl9.vz3pgWr4ifKaPcCjcte4iXYFztr9HQeFgGTTSh_VNKY
 Content-Type: application/json 
 
 {
-    "productId": "6462aa3897a2189c5977a1be",   
-    "code": "112434",
-    "price": 200000,
-    "name": "Băng cuốn cổ tay cổ chân cổ",
+    "productId": "646a71c9e27c9b779cb09401",   
+    "code": "3535adsfk3",
+    "price": 239000,
+    "name": "Váy sẻ tà thoáng mát cho mùa hè nóng bức",
     "brand": "TVC sports"
 }
 ###
-GET {{baseUrl}}{{pdsRoute}}/read 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0MTg2ODk0LCJleHAiOjE2ODQxOTA0OTR9.M5jGIRlcCtLoZpAQE11yJbL9kpC6Heur9HNgQelyT-k
+POST {{baseUrl}}{{pdsRoute}}/read 
 Content-Type: application/json 
 
 {
-    "productId": "6462aa3897a2189c5977a1be"
+    "productId": "646a71c9e27c9b779cb09401"
 }
 
+### 
+
 ###
-GET {{baseUrl}}{{pdsRoute}}/search?key=chân
+GET {{baseUrl}}{{pdsRoute}}/search?key=vay
 Content-Type: application/json 
 ###
 GET {{baseUrl}}{{pdsRoute}}/sort?bestSell=-1
@@ -71,41 +72,72 @@ Content-Type: application/json
 ###
 POST {{baseUrl}}{{cartRoute}}/add 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0MTkwNDk2LCJleHAiOjE2ODQxOTQwOTZ9.25rMOmhl1zZIZMjKIBILYoyyL4NByP5cZgKye3x-ymk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0NzQxNjI5LCJleHAiOjE2ODQ3NDUyMjl9.vz3pgWr4ifKaPcCjcte4iXYFztr9HQeFgGTTSh_VNKY
 
 {
     
-    "productId" : "6462b2291a86f5c920d8ae8f", 
-    "quantity" : 10, 
-    "status": "active"
+    "productId" : "646a71c9e27c9b779cb09401", 
+    "quantity" : 2
 }
 
 ###//cho phép xóa nhiều product cùng lúc với seperate : "|"
 DELETE {{baseUrl}}{{cartRoute}}/delete 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0MTg4MTU4LCJleHAiOjE2ODQxOTE3NTh9.b1uqE6MyhyLrOe_y6ssQWBvyAkRrw6lp53Tszxo18Og
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0NzQxNjI5LCJleHAiOjE2ODQ3NDUyMjl9.vz3pgWr4ifKaPcCjcte4iXYFztr9HQeFgGTTSh_VNKY
 
 {
-    "productId" : "6462aa3897a2189c5977a1be"
+    "productId" : "646a71c9e27c9b779cb09401"
 }
 
 ###
+GET {{baseUrl}}{{cartRoute}}/all 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0OTAwMzIwLCJleHAiOjE2ODQ5MDM5MjB9.g6eGHcA98T8U4shPSvMz2uG5ZooqffuhV9zbTDymNY0
+###
+GET {{baseUrl}}{{cartRoute}}/detail 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0OTA5NzAzLCJleHAiOjE2ODQ5MTMzMDN9.MwYPFX_b2CV0dJTMZmsCM52_Q5QlZciXW0ot9P6X3dk
+
+###
 //products --> base 64 [{productId, amount, quantity}]
-POST {{baseUrl}}{{cartRoute}}/payment
+POST {{baseUrl}}{{cartRoute}}/payment/banking
 Content-Type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg0MTkwNDk2LCJleHAiOjE2ODQxOTQwOTZ9.25rMOmhl1zZIZMjKIBILYoyyL4NByP5cZgKye3x-ymk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg1MDgyNTYxLCJleHAiOjE2ODUwODYxNjF9.DOyz4hKrYi_EqICe9eU2O98qbG4dq1Z-Zzs-JzITOs8
 
 {
-    "productId" : "W3sicHJvZHVjdElkIjoiNjQ2MmIyMjkxYTg2ZjVjOTIwZDhhZThmIiwicXVhbnRpdHkiOjN9XQ==", 
+    "productId" : "W3sicHJvZHVjdElkIjoiNjQ2YTcxYzllMjdjOWI3NzljYjA5NDAxIiwicXVhbnRpdHkiOjJ9XQ==", 
     "address" : "Hà Nội - Bắc Từ Niêm - Minh Khai", 
     "number": "0987643567", 
-    "amount" : "100000", 
+    "amount" : "488000", 
     "bankCode" : "NCB", 
     "language": "vn", 
     "shipping" : 15000, 
     "notes" : "Cầu giấy xuân thủy hà nội", 
     "status" : 0,
-    "type" : "bank",
+    "type" : "banking",//or cod
     "pay" : "pending",
-    "weight" : 450
+    "weight" : 450, 
+    "name": "Hoàng văn Hiệu"
 }
+###
+//products --> base 64 [{productId, amount, quantity}]
+POST {{baseUrl}}{{cartRoute}}/payment/cod
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ1MmQ4ZTdkMGI1NmIwMDQ4MzBjZjdmIiwiaWF0IjoxNjg1MDgyNTYxLCJleHAiOjE2ODUwODYxNjF9.DOyz4hKrYi_EqICe9eU2O98qbG4dq1Z-Zzs-JzITOs8
+
+{
+    "productId" : "W3sicHJvZHVjdElkIjoiNjQ2YTcxYzllMjdjOWI3NzljYjA5NDAxIiwicXVhbnRpdHkiOjEwfV0=", 
+    "address" : "Hà Nội - Bắc Từ Niêm - Minh Khai", 
+    "number": "0987643567", 
+    "amount" : "488000", 
+    "language": "vn", 
+    "shipping" : 15000, 
+    "notes" : "Cầu giấy xuân thủy hà nội", 
+    "status" : 0,
+    "type" : "code",//or cod
+    "pay" : "pending",
+    "weight" : 450, 
+    "name": "Hoàng văn Hiệu"
+}
+
+
+###
+GET  {{baseUrl}}{{pdsRoute}}/products

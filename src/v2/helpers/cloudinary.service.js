@@ -1,6 +1,6 @@
 require('dotenv').config();
 const createError = require('http-errors');
-
+const { uploadImagesSequentially } = require('@v2/utils');
 const { cloudinary } = require('@v2/configs/cloudinary.config');
 
 const {
@@ -17,33 +17,15 @@ var that = (module.exports = {
                 if (!!errors.length) {
                     throw new createError.BadRequest(errors);
                 }
-                let imgArr = data.map(([filename, base64String]) => {
-                    return cloudinary.uploader.upload(base64String, {
-                        public_id: `${filename}${randomString(6)}`,
-                        folder: 'shopv2',
-                    });
-                });
-                console.log('before promise');
-                await Promise.all(imgArr)
-                    .then((resp) => {
-                        let newData = resp.map((item) => {
-                            return { filename: item.public_id, path: item.url };
-                        });
 
-                        return newData;
-                    })
-                    .then((data) => {
-                        req.body.images = data;
-                        console.log('image tt');
-                        next();
-                    })
-                    .catch((err) => {
-                        console.log('err');
-                        next(err);
-                    });
+                const result = await uploadImagesSequentially(data, cloudinary, folderName)
+                    .then((result) => result)
+                    .catch(next);
+                req.body.images = result;
+                next();
             } else next();
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             next(err);
         }
     },

@@ -14,8 +14,9 @@ var that = (module.exports = {
 
             jwt.verify(token, ACCESSTOKEN_SECRET, (err, decoded) => {
                 if (err) throw new createError.Unauthorized();
-                req.body.userId = decoded.data;
-
+                console.log('start');
+                req.userId = decoded.data;
+                console.log('end');
                 next();
             });
         } catch (err) {
@@ -35,10 +36,10 @@ var that = (module.exports = {
 
                 if (user?.userInfo?.role === 0) throw new createError.Forbidden('You are not admin!!');
                 req.userId = decoded.data;
-                console.log('admin');
+                // console.log('admin');
                 next();
             }).catch((err) => {
-                console.log('not admin');
+                // console.log('not admin');
                 next(err);
             });
         } catch (err) {

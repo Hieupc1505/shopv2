@@ -10,7 +10,7 @@ var that = (module.exports = {
     },
     fileFilter: (req, file, cb) => {
         // Kiểm tra định dạng tệp tin
-        if (!file.mimetype.match(/(jpg|jpeg|png)$/)) {
+        if (!file.mimetype.match(/(jpg|jpeg|png|webp)$/)) {
             return cb(new Error(`File ${file.originalname} không được hỗ trợ.`));
         }
 

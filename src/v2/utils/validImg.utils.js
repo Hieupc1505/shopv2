@@ -11,12 +11,14 @@ var that = (module.exports = (images) => {
                 [filename]: 'File too large!!',
             });
         }
-        if (imgType !== 'image/jpeg' && imgType !== 'image/png') {
+        // console.log(imgType);
+        if (imgType !== 'image/jpeg' && imgType !== 'image/png' && imgType !== 'image/webp') {
             errors.push({
                 [filename]: 'Type file is not be support!!',
             });
         }
-        filename = filename.replace(/(\.jpg|\.jpeg|\.png)$/, '-');
+        // console.log(filename);
+        filename = filename.replace(/\.(jpg|jpeg|png|webp)$/, '-');
         // Ảnh hợp lệ
         data.push([filename, base64String]);
     }

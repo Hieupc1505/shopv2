@@ -31,14 +31,15 @@ const cartValid = (data) => {
         userId: Joi.string().required(),
         productId: Joi.string().required(),
         address: Joi.string().required(),
-        number: Joi.string().length(10).required(),
+        number: Joi.number().required(),
         amount: Joi.number().min(1000).max(10000000).required(),
         shipping: Joi.number().required(),
         weight: Joi.number().min(100).required(),
         status: Joi.number().valid(-1, 0, 1).required(), //tình trạng giao hàng
         notes: Joi.string(),
-        type: Joi.string().required(),
+        type: Joi.string().valid('cod', 'banking').required(),
         pay: Joi.string().valid('pending', 'fullfill', 'rejected'),
+        name: Joi.string(),
     });
     return cartSchema.validate(data);
 };

@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const cookieParser = require('cookie-parser');
 
 //import ultils
 const logger = require('@v2/utils/logger.utils');
@@ -22,8 +23,14 @@ const routev2 = require('@v2/routers/index');
 
 // Allow CORS across-the-board
 if (process.env.NODE_ENV === 'development') {
-    app.use(cors());
-    app.options('*', cors());
+    app.use(
+        cors({
+            credentials: true,
+            origin: ['http://localhost:5173', 'http://localhost:27017'],
+            exposedHeaders: ['set-cookie'],
+        }),
+    );
+    // app.options('*', cors());
 } else if (process.env.NODE_ENV === 'production') {
     app.use(
         cors({
@@ -39,6 +46,7 @@ app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(cookieParser());
 
 //connect to database
 db.connect();
