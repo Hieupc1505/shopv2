@@ -7,9 +7,25 @@ const {
     paymentVNP,
 } = require('@v2/middleware/index.middeware');
 
-const { add, read, update, deleteP, searchProductName, sortProduct } = require('@v2/services/product.service');
+const {
+    add,
+    read,
+    update,
+    deleteP,
+    searchProductName,
+    sortProduct,
+    getProdcuts,
+    suggestSearchName,
+} = require('@v2/services/product.service');
 const { uploadImgBase64 } = require('@v2/helpers/cloudinary.service');
+
 var that = (module.exports = {
+    //poublic route
+    getProdcuts: catchAsync(async (req, res, next) => {
+        res.status(200).json(await getProdcuts(req.query));
+    }),
+
+    //private route
     add: [
         authAdmin,
         fillterTypeReq,
@@ -20,12 +36,9 @@ var that = (module.exports = {
         }),
     ],
 
-    read: [
-        authAdmin,
-        catchAsync(async (req, res, next) => {
-            res.status(200).json(await read(req.body));
-        }),
-    ],
+    read: catchAsync(async (req, res, next) => {
+        res.status(200).json(await read(req.body));
+    }),
     update: [
         authAdmin,
         uploadHandler,
@@ -47,5 +60,8 @@ var that = (module.exports = {
 
     sortProduct: catchAsync(async (req, res, next) => {
         res.status(200).json(await sortProduct(req.query));
+    }),
+    suggestSearchName: catchAsync(async (req, res, next) => {
+        res.status(200).json(await suggestSearchName(req.query));
     }),
 });

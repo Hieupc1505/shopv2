@@ -9,4 +9,5 @@ var that = (module.exports = {
     common: require('./common.utils'),
     cloudinary: require('./cloudinary.utils'),
     updateInventories: require('./handleInventories'),
+    uploadImagesSequentially: require('./uploadImageSync'),
 });

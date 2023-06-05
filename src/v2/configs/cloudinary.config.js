@@ -14,12 +14,12 @@ const {
 // Cấu hình CloudinaryStorage
 const storage = new CloudinaryStorage({
     cloudinary,
-    allowedFormats: ['jpg', 'png'],
+    allowedFormats: ['jpg', 'png', 'webp'],
     params: {
         folder: 'shopv2',
         public_id: (req, file) => {
             const str = randomString(6);
-            file.originalname = file.originalname.replace(/(\.jpg|\.jpeg|\.png)$/, '-');
+            file.originalname = file.originalname.replace(/(\.jpg|\.jpeg|\.png|\.webp)$/, '-');
             return `${file.originalname}${str}`;
         },
     },

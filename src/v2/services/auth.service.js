@@ -59,7 +59,7 @@ var that = (module.exports = {
             message: 'Tài khoản đã được tạo!!',
         };
     },
-    login: async (userData, provider) => {
+    login: async (userData, provider, res) => {
         let user = null;
 
         if (provider === 'lc') {
@@ -110,13 +110,15 @@ var that = (module.exports = {
         }
         const accessToken = await signAccessToken(user._id, '1h');
         const refreshToken = await signRefreshToken(user._id, '1d');
-
-        return {
+        res.cookie('_cookie', refreshToken, {
+            httpOnly: true,
+            maxAge: 60 * 24 * 60 * 60 * 1000,
+        });
+        res.status(200).json({
             success: true,
             user,
             accessToken,
-            refreshToken,
-        };
+        });
     },
     forgetPass: async ({ email }) => {
         const acc = await _User.findOne({ email, status: 1 }, { _id: 1 });
@@ -171,16 +173,17 @@ var that = (module.exports = {
             refreshToken: refToken,
         };
     },
-    logout: async ({ refreshToken }) => {
-        if (!refreshToken) throw new createError.BadRequest();
-        const { data: userId } = await verifyRefreshToken(refreshToken);
+    logout: async ({ _cookie }, res) => {
+        if (!_cookie) throw new createError.BadRequest();
+        const { data: userId } = await verifyRefreshToken(_cookie);
         const token = await client.get(userId.toString());
-        if (token !== refreshToken) {
+        if (token !== _cookie) {
             throw new createError.BadRequest();
         }
         await client.del(userId.toString(), (err, reply) => {
             if (err) throw new createError.InternalServerError();
         });
+        res.clearCookie('_cookie');
         return {
             status: 'success',
             msg: 'Logout oki!!',
@@ -210,4 +213,31 @@ var that = (module.exports = {
         };
     },
     setRole: async ({ email, role }) => {},
+    getInfo: async (userId) => {
+        if (!userId) throw new createError.BadRequest();
+        const result = await _User.findOne({ _id: userId }).lean();
+        return {
+            success: true,
+            data: result,
+        };
+    },
+    // updateProfile: async ({ userName, address, number, avatar = '' }, userId) => {
+    //     const profile = await _User.findOneAndUpdate(
+    //         {
+    //             userId,
+    //         },
+    //         {
+    //             $addToSet: {
+    //                 userName,
+    //                 address,
+    //                 number,
+    //             },
+    //         },
+    //         { new: true },
+    //     );
+    //     return {
+    //         success: true,
+    //         data: profile,
+    //     };
+    // },
 });

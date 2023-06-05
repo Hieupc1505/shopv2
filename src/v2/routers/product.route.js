@@ -1,5 +1,14 @@
 const router = require('express').Router();
-const { add, read, update, deleteP, searchProductName, sortProduct } = require('@v2/controllers/product.controller');
+const {
+    add,
+    read,
+    update,
+    deleteP,
+    searchProductName,
+    sortProduct,
+    getProdcuts,
+    suggestSearchName,
+} = require('@v2/controllers/product.controller');
 
 router.get('/test', (req, res, next) => {
     res.status(200).json({
@@ -10,12 +19,16 @@ router.get('/test', (req, res, next) => {
 
 //router for admin
 router.route('/add').post(add);
-router.route('/read').get(read);
+router.route('/read').post(read);
 router.route('/update').patch(update);
 router.route('/update').post(deleteP);
 
+//router for user
+router.route('/products').get(getProdcuts);
+
 //router for client
-router.route('/search').get(searchProductName);
+router.route('/search').get(suggestSearchName);
+router.route('/search/list').get(searchProductName);
 router.route('/sort').get(sortProduct);
 
 module.exports = router;

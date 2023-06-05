@@ -7,6 +7,6 @@ var that = (module.exports = (req, res, next) => {
         // xử lý dữ liệu data form
         req.contentType = 'encoded';
     }
-    console.log(req.contentType);
+    // console.log(req.contentType);
     next();
 });
