@@ -24,7 +24,7 @@ const { uploadImgBase64 } = require('@v2/helpers/cloudinary.service');
 var that = (module.exports = {
     login: catchAsync(async (req, res, next) => {
         // console.log("heoo");
-        if (req.provider) return res.status(200).json(await login(req.user, req.provider));
+        if (req.provider) return res.status(200).json(await login(req.user, req.provider, res));
         await login(req.body, 'lc', res);
     }),
     register: catchAsync(async (req, res, next) => {
@@ -40,7 +40,6 @@ var that = (module.exports = {
         res.status(200).json(await refreshToken(req.body));
     }),
     logout: catchAsync(async (req, res, next) => {
-        console.log(req.cookies);
         res.status(200).json(await logout(req.cookies, res));
     }), // [POST] /user/forget
     forgetPass: catchAsync(async (req, res, next) => {

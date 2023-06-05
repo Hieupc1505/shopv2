@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(
         cors({
             credentials: true,
-            origin: ['http://localhost:5173', 'http://localhost:27017'],
+            origin: ['http://localhost:5173', 'http://localhost:27017', process.env.PROD_CLIENT_DOMAIN],
             exposedHeaders: ['set-cookie'],
         }),
     );

@@ -23,6 +23,7 @@
         "compression": "^1.7.4",
         "config": "^1.31.0",
         "cookie-parser": "^1.4.6",
+        "cookie-session": "^2.0.0",
         "cors": "^2.8.5",
         "crypto": "^1.0.1",
         "dateformat": "^2.2.0",
